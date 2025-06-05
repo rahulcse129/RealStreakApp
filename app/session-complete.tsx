@@ -29,7 +29,7 @@ export default function SessionCompleteScreen() {
   const playVoiceMessage = async () => {
     try {
       const { sound } = await Audio.Sound.createAsync(
-        { uri: 'https://yourcdn.com/audio/streak-complete.mp3' }, // 🔁 Replace with your actual MP3 URL
+        { uri: 'https://raw.githubusercontent.com/rahulcse129/RealStreak/main/ElevenLabs_2025-06-05T08_21_58_Alice_pre_sp100_s50_sb75_se0_b_m2.mp3' }, // Replace with real URL
         { shouldPlay: true }
       );
 
@@ -42,16 +42,20 @@ export default function SessionCompleteScreen() {
       console.error('Voice playback error:', error);
     }
   };
-    useEffect(() => {
-  // Simulate fetching video from Tavus
+
   const fetchTavusVideo = async () => {
-    // In real usage, fetch from your backend or directly from Tavus API
-    const videoUrl = 'https://github.com/rahulcse129/RealStreak/blob/main/947cf1ebe8.mp4'; // 🔁 Replace with real Tavus video URL
-    setTavusVideoURL(videoUrl);
+    try {
+      const videoUrl = 'https://raw.githubusercontent.com/rahulcse129/RealStreak/main/947cf1ebe8.mp4'; 
+      setTavusVideoURL(videoUrl);
+    } catch (error) {
+      console.error('Video fetch error:', error);
+    }
   };
 
+  playVoiceMessage();
   fetchTavusVideo();
 }, []);
+
 
 
   playVoiceMessage();
