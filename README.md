@@ -2,9 +2,9 @@
 ### 📘 `README.md`
 
 ```markdown
-# Project Bolt SB1
+# RealStreak 
 
-**Project Bolt SB1** is a mobile app built with React Native and Expo. It features user sessions, achievements, timers, and user authentication, making it suitable for productivity, wellness, or gamified habit-tracking use cases.
+**RealStreak ** is a mobile app built with React Native and Expo. It features user sessions, achievements, timers, and user authentication, making it suitable for productivity, wellness, or gamified habit-tracking use cases.
 
 ## 📦 Tech Stack
 
@@ -21,19 +21,6 @@
 - 🎮 Gamified UI with cards and avatars
 - ⚙️ Modern project setup with Prettier, TypeScript, and strict linting
 
-## 🗂️ Project Structure
-
-```
-
-project/
-├── components/         # Reusable UI components
-├── hooks/              # Custom hooks (e.g., auth, framework readiness)
-├── assets/             # Images and icons
-├── app.json            # Expo configuration
-├── tsconfig.json       # TypeScript settings
-└── package.json        # Project dependencies and scripts
-
-````
 
 ## 🚀 Getting Started
 
