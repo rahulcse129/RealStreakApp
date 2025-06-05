@@ -57,9 +57,6 @@ useEffect(() => {
   fetchTavusVideo();
 }, []);
 
-
-
-
   playVoiceMessage();
   }, []);
   return (
