@@ -25,39 +25,7 @@ export default function SessionCompleteScreen() {
     router.replace('/(tabs)');
   };
 
-  useEffect(() => {
-  const playVoiceMessage = async () => {
-    try {
-      const { sound } = await Audio.Sound.createAsync(
-        { uri: 'https://raw.githubusercontent.com/rahulcse129/RealStreak/main/ElevenLabs_2025-06-05T08_21_58_Alice_pre_sp100_s50_sb75_se0_b_m2.mp3' }, // Replace with actual audio file
-        { shouldPlay: true }
-      );
-
-      sound.setOnPlaybackStatusUpdate((status) => {
-        if (status.isLoaded && status.didJustFinish) {
-          sound.unloadAsync(); // free memory
-        }
-      });
-    } catch (error) {
-      console.error('Voice playback error:', error);
-    }
-  };
-
-  playVoiceMessage();
-}, []);
-
-useEffect(() => {
-  // Simulate fetching video from Tavus
-  const fetchTavusVideo = async () => {
-    // Use a direct video link here (not a GitHub page)
-    const videoUrl = 'https://raw.githubusercontent.com/rahulcse129/RealStreak/main/947cf1ebe8.mp4'; // Replace with actual video URL
-    setTavusVideoURL(videoUrl);
-  };
-  fetchTavusVideo();
-}, []);
-
-  playVoiceMessage();
-  }, []);
+  
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <View style={styles.successContainer}>
