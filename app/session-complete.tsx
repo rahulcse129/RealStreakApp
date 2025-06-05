@@ -53,7 +53,6 @@ useEffect(() => {
     const videoUrl = 'https://raw.githubusercontent.com/rahulcse129/RealStreak/main/947cf1ebe8.mp4'; // Replace with actual video URL
     setTavusVideoURL(videoUrl);
   };
-
   fetchTavusVideo();
 }, []);
 
