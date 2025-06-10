@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import CircularProgress from './CircularProgress';
 import { Siren as Fire } from 'lucide-react-native';
 
 interface StreakCounterProps {
@@ -24,14 +24,12 @@ export default function StreakCounter({
   return (
     <View style={styles.container}>
       <View style={styles.circleContainer}>
-        <AnimatedCircularProgress
+        <CircularProgress
           size={160}
           width={12}
           fill={streakPercentage}
           tintColor="#F9A826"
           backgroundColor="#E2E8F0"
-          rotation={0}
-          lineCap="round"
         >
           {() => (
             <View style={styles.streakContent}>
@@ -40,7 +38,7 @@ export default function StreakCounter({
               <Text style={styles.streakLabel}>day streak</Text>
             </View>
           )}
-        </AnimatedCircularProgress>
+        </CircularProgress>
       </View>
       
       <View style={styles.statsContainer}>

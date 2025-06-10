@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import CircularProgress from './CircularProgress';
 import { Play, Pause, CircleStop as StopCircle } from 'lucide-react-native';
 
 interface SessionTimerProps {
@@ -50,14 +50,12 @@ export default function SessionTimer({
   return (
     <View style={styles.container}>
       <View style={styles.timerContainer}>
-        <AnimatedCircularProgress
+        <CircularProgress
           size={240}
           width={16}
           fill={progress}
           tintColor="#5D3FD3"
           backgroundColor="#E2E8F0"
-          rotation={0}
-          lineCap="round"
         >
           {() => (
             <View style={styles.timerContent}>
@@ -67,7 +65,7 @@ export default function SessionTimer({
               </Text>
             </View>
           )}
-        </AnimatedCircularProgress>
+        </CircularProgress>
       </View>
       
       <View style={styles.controls}>
