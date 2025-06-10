@@ -6,7 +6,7 @@ import { AuthProvider } from '@/hooks/useAuth';
 import { useFonts, Inter_400Regular, Inter_500Medium, Inter_700Bold } from '@expo-google-fonts/inter';
 import { View, StyleSheet } from 'react-native';
 import { SplashScreen } from 'expo-router';
-import MadeWithBoltBadge from '@/components/MadeWithBoltBadge'; // 👈 import badge
+import MadeWithBoltBadge from '@/components/MadeWithBoltBadge';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,7 +39,7 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ animation: 'fade' }} />
           <Stack.Screen name="+not-found" options={{ presentation: 'modal' }} />
         </Stack>
-        <MadeWithBoltBadge /> {/* 👈 Badge added globally */}
+        <MadeWithBoltBadge />
       </View>
     </AuthProvider>
   );
