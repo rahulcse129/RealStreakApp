@@ -3,11 +3,9 @@ import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { Check, Clock, Users, ChevronRight } from 'lucide-react-native';
 import AppButton from '@/components/AppButton';
-import { Audio } from 'expo-av';
-
-import { Video } from 'expo-av';
+import VideoPlayer from '@/components/VideoPlayer';
 import { useState, useEffect } from 'react';
-
+import { VideoService, GeneratedVideo } from '@/services/videoService';
 
 export default function SessionCompleteScreen() {
   const { duration, participants } = useLocalSearchParams<{
@@ -18,14 +16,33 @@ export default function SessionCompleteScreen() {
   const parsedDuration = parseInt(duration || '30', 10);
   const parsedParticipants = parseInt(participants || '1', 10);
 
-  const [tavusVideoURL, setTavusVideoURL] = useState<string | null>(null);
+  const [celebrationVideo, setCelebrationVideo] = useState<GeneratedVideo | null>(null);
+  const [isLoadingVideo, setIsLoadingVideo] = useState(true);
 
+  useEffect(() => {
+    const generateCelebrationVideo = async () => {
+      try {
+        const video = await VideoService.generateSessionVideo({
+          sessionType: 'completed',
+          duration: parsedDuration,
+          participants: parsedParticipants,
+          userName: 'User', // This would come from auth context in a real app
+        });
+        setCelebrationVideo(video);
+      } catch (error) {
+        console.error('Failed to generate celebration video:', error);
+      } finally {
+        setIsLoadingVideo(false);
+      }
+    };
+
+    generateCelebrationVideo();
+  }, [parsedDuration, parsedParticipants]);
   
   const handleContinue = () => {
     router.replace('/(tabs)');
   };
 
-  
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <View style={styles.successContainer}>
@@ -63,26 +80,31 @@ export default function SessionCompleteScreen() {
         </Text>
       </View>
       
-  {tavusVideoURL ? (
-  <Video
-    source={{ uri: tavusVideoURL }}
-    style={styles.recapVideo}
-    useNativeControls
-    resizeMode="cover"
-    shouldPlay
-  />
-) : (
-  <View style={styles.recapPlaceholder}>
-    <Image 
-      source={{ uri: 'https://images.pexels.com/photos/7947961/pexels-photo-7947961.jpeg?auto=compress&cs=tinysrgb&w=600' }} 
-      style={styles.recapImage} 
-    />
-    <View style={styles.recapOverlay}>
-      <Text style={styles.comingSoonText}>Generating your recap...</Text>
-    </View>
-  </View>
-)}
-
+      {/* Celebration Video Section */}
+      <View style={styles.videoSection}>
+        <Text style={styles.videoSectionTitle}>Your Session Recap</Text>
+        {isLoadingVideo ? (
+          <View style={styles.videoPlaceholder}>
+            <Text style={styles.loadingText}>Generating your personalized recap...</Text>
+          </View>
+        ) : celebrationVideo ? (
+          <VideoPlayer
+            videoUrl={celebrationVideo.url}
+            title={celebrationVideo.title}
+            style={styles.celebrationVideo}
+          />
+        ) : (
+          <View style={styles.recapPlaceholder}>
+            <Image 
+              source={{ uri: 'https://images.pexels.com/photos/7947961/pexels-photo-7947961.jpeg?auto=compress&cs=tinysrgb&w=600' }} 
+              style={styles.recapImage} 
+            />
+            <View style={styles.recapOverlay}>
+              <Text style={styles.comingSoonText}>Video generation unavailable</Text>
+            </View>
+          </View>
+        )}
+      </View>
       
       <View style={styles.nextStepsContainer}>
         <Text style={styles.nextStepsTitle}>What's next?</Text>
@@ -215,21 +237,32 @@ const styles = StyleSheet.create({
     color: '#4A5568',
     textAlign: 'center',
   },
-  recapContainer: {
+  videoSection: {
     marginVertical: 24,
   },
-  recapTitle: {
+  videoSectionTitle: {
     fontSize: 18,
     fontFamily: 'Inter-Bold',
     color: '#2D3748',
-    marginBottom: 12,
-  },
-  recapText: {
-    fontSize: 14,
-    fontFamily: 'Inter-Regular',
-    color: '#718096',
     marginBottom: 16,
-    lineHeight: 22,
+    textAlign: 'center',
+  },
+  celebrationVideo: {
+    marginBottom: 16,
+  },
+  videoPlaceholder: {
+    height: 200,
+    backgroundColor: '#F7FAFC',
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  loadingText: {
+    fontSize: 16,
+    fontFamily: 'Inter-Medium',
+    color: '#718096',
   },
   recapPlaceholder: {
     height: 200,
@@ -301,11 +334,4 @@ const styles = StyleSheet.create({
   continueButton: {
     marginVertical: 16,
   },
-  recapVideo: {
-  width: '100%',
-  height: 200,
-  borderRadius: 16,
-  backgroundColor: '#000',
-  marginTop: 8,
-},
 });
